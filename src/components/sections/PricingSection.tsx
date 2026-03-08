@@ -74,6 +74,10 @@ export default function PricingSection() {
                 </div>
                 <p className="text-gray-300 text-sm md:ml-10 leading-relaxed">
                   要件定義、機材選定、物理設営、オーディオルーティング、OBS最適化、Stream Deckマクロ構築など、プロ仕様の環境を作り上げるための全工程を含みます。
+                  <br />
+                  <span className="inline-block mt-2 text-tt-magenta font-bold bg-tt-magenta/10 px-2 py-1 rounded text-xs">
+                    ※ 物理的な機材設置・配線サポートは東京近郊エリア限定となります。
+                  </span>
                 </p>
               </div>
 

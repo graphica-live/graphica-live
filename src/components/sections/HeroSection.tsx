@@ -10,16 +10,22 @@ export default function HeroSection() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <div className="inline-block px-4 py-1 rounded-full border border-tt-cyan text-tt-cyan text-xs font-bold tracking-wider mb-6 bg-tt-cyan/10">
-            TIKTOK LIVE 高画質配信専門プロデュース
+          <div className="flex flex-wrap items-center gap-3 mb-6">
+            <div className="inline-block px-4 py-1 rounded-full border border-tt-cyan text-tt-cyan text-[10px] md:text-xs font-bold tracking-wider bg-tt-cyan/10">
+              TIKTOK LIVE 高画質配信専門プロデュース
+            </div>
           </div>
           <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6 tracking-tight">
+            <span className="block text-2xl md:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-tt-magenta to-red-500 mb-2 drop-shadow-[0_0_10px_rgba(254,9,121,0.5)]">
+              【東京エリア限定】出張セットアップ
+            </span>
             スマホ配信から卒業。<br/>
             <span className="text-gradient">圧倒的高画質</span>で<br/>
             ライバルに差をつけろ。
           </h1>
           <p className="text-gray-400 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
-            TikTok Liveのアルゴリズムに愛される「高画質・高音質」なPC配信環境を完全プロデュース。機材選定からOBS設定まで丸投げOK。
+            <strong className="text-white">東京密着のプロフェッショナルがあなたのご自宅・スタジオへ直接伺います。</strong><br/>
+            TikTok Liveのアルゴリズムに愛される「高画質・高音質」なPC配信環境を完全プロデュース。機材選定からOBS設定、面倒な配線まで丸投げOK。
           </p>
           
           {/* Industry First - One Stop Shop */}
@@ -136,7 +142,7 @@ export default function HeroSection() {
                 </div>
                 <div>
                   <div className="text-xs text-gray-400">視聴者滞在時間</div>
-                  <div className="font-bold text-xl">+320%</div>
+                  <div className="font-bold text-xl text-transparent bg-clip-text bg-gradient-to-r from-tt-cyan to-white drop-shadow-md">大幅UP</div>
                 </div>
               </div>
             </motion.div>
