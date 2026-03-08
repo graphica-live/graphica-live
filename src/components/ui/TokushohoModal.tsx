@@ -8,8 +8,9 @@ interface TokushohoModalProps {
 
 export default function TokushohoModal({ isOpen, onClose }: TokushohoModalProps) {
   return (
-    <AnimatePresence>
-      {isOpen && (
+    <>
+      <AnimatePresence>
+        {isOpen && (
         <>
           <motion.div
             initial={{ opacity: 0 }}
@@ -158,5 +159,6 @@ export default function TokushohoModal({ isOpen, onClose }: TokushohoModalProps)
         </>
       )}
     </AnimatePresence>
+    </>
   );
 }
