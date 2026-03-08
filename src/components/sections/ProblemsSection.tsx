@@ -42,7 +42,7 @@ export default function ProblemsSection() {
               <Star weight="fill" className="text-3xl" />
             </div>
             <h3 className="text-xl font-bold mb-3">ほかのライバーとの差別化</h3>
-            <p className="text-gray-400 text-sm leading-relaxed">勝負は、開いた瞬間の「1秒」。スマホの画質では、どんなに企画を磨いても、本当の魅力が伝わる前にスワイプされてしまいます。</p>
+            <p className="text-gray-400 text-sm leading-relaxed">開いた瞬間の「1秒」。スマホの画質では、どんなに企画を磨いても、本当の魅力が伝わる前にスワイプされてしまいます。</p>
           </motion.div>
           {/* Card 2 */}
           <motion.div variants={item} className="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 text-center flex flex-col items-center">

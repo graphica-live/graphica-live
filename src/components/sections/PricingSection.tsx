@@ -60,8 +60,16 @@ export default function PricingSection() {
                     <CheckCircle weight="fill" className="text-3xl text-tt-cyan" /> 
                     環境構築・初期設定一式
                   </h5>
-                  <div className="md:ml-auto text-3xl font-black text-white mt-2 md:mt-0">
-                    ¥150,000<span className="text-base text-gray-400 font-normal ml-1">（税込）</span>
+                  <div className="md:ml-auto flex flex-col items-end mt-4 md:mt-0">
+                    <div className="flex items-center gap-3 mb-1">
+                      <span className="px-2.5 py-1 bg-tt-magenta text-white text-[10px] md:text-sm font-black tracking-wider rounded-md animate-pulse shadow-[0_0_15px_rgba(254,9,121,0.6)] border border-white/20">
+                        期間限定 50%OFF!
+                      </span>
+                      <span className="line-through text-gray-500 font-bold text-sm md:text-lg">¥148,000</span>
+                    </div>
+                    <div className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-tt-magenta to-red-400 drop-shadow-[0_0_15px_rgba(254,9,121,0.5)]">
+                      ¥74,000<span className="text-base text-gray-400 font-normal ml-1">（税込）</span>
+                    </div>
                   </div>
                 </div>
                 <p className="text-gray-300 text-sm md:ml-10 leading-relaxed">
@@ -157,7 +165,7 @@ export default function PricingSection() {
               </ul>
               
               <a href="#contact" className="w-full block py-2.5 rounded-full border border-gray-600 text-gray-400 text-xs text-center font-bold hover:border-tt-cyan/50 hover:text-tt-cyan/80 transition-colors">
-                Freeで登録する
+                Freeで初期環境構築を申込み
               </a>
             </motion.div>
 
@@ -195,7 +203,7 @@ export default function PricingSection() {
               </ul>
               
               <a href="#contact" className="w-full block py-2.5 rounded-full border border-tt-cyan text-tt-cyan text-xs text-center font-bold hover:bg-tt-cyan hover:text-dark-bg transition-colors">
-                このプランについて聞く
+                Standardで初期環境構築を申込み
               </a>
             </motion.div>
 
@@ -234,7 +242,7 @@ export default function PricingSection() {
               </ul>
               
               <a href="#contact" className="w-full block py-2.5 rounded-full bg-tt-cyan text-dark-bg text-xs text-center font-bold hover:shadow-[0_0_20px_rgba(0,242,254,0.4)] transition-shadow">
-                このプランについて聞く
+                Premiumで初期環境構築を申込み
               </a>
             </motion.div>
           </div>
