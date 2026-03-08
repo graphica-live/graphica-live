@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok Live 高画質PC配信プロデュース</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Icons (Phosphor Icons) -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans JP', 'sans-serif'],
+                    },
+                    colors: {
+                        'tt-cyan': '#00f2fe',
+                        'tt-magenta': '#fe0979',
+                        'dark-bg': '#0f0f13',
+                        'card-bg': '#1c1c24',
+                    },
+                    backgroundImage: {
+                        'gradient-tt': 'linear-gradient(135deg, #00f2fe 0%, #fe0979 100%)',
+                        'gradient-dark': 'linear-gradient(to bottom, #0f0f13, #1c1c24)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles & Animation Tweaks */
+        body {
+            background-color: #0f0f13;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #00f2fe 0%, #fe0979 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .neon-border {
+            position: relative;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            background: linear-gradient(45deg, #00f2fe, #fe0979, #00f2fe);
+            z-index: -1;
+            border-radius: inherit;
+            background-size: 200% 200%;
+            animation: moveGradient 3s linear infinite;
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-panel {
+            background: rgba(28, 28, 36, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Abstract shapes */
+        .shape-blob {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.3) 0%, rgba(254, 9, 121, 0.3) 100%);
+            filter: blur(90px);
+            position: absolute;
+            z-index: -1;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-tt-magenta selection:text-white">
+
+    <!-- Background Decoration -->
+    <div class="shape-blob w-[500px] h-[500px] top-[-100px] left-[-200px]"></div>
+    <div class="shape-blob w-[600px] h-[600px] top-[40%] right-[-300px] opacity-60"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 glass-panel py-4 px-6 md:px-12 transition-all duration-300">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="text-2xl font-black italic tracking-tighter">
+                <span class="text-gradient">GRAPHICA</span>
+            </div>
+            <div class="hidden md:flex space-x-8 font-medium text-sm text-gray-300">
+                <a href="#problems" class="hover:text-tt-cyan transition-colors">お悩み</a>
+                <a href="#benefits" class="hover:text-tt-cyan transition-colors">メリット</a>
+                <a href="#services" class="hover:text-tt-cyan transition-colors">サービス内容</a>
+                <a href="#process" class="hover:text-tt-cyan transition-colors">流れ</a>
+                <a href="#pricing" class="hover:text-tt-cyan transition-colors">料金プラン</a>
+            </div>
+            <a href="#contact" class="hidden md:inline-block bg-white text-dark-bg font-bold py-2 px-6 rounded-full hover:scale-105 transition-transform duration-300">
+                無料相談する
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 flex items-center min-h-screen">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right" data-aos-duration="1000">
+                <div class="inline-block px-4 py-1 rounded-full border border-tt-cyan text-tt-cyan text-xs font-bold tracking-wider mb-6 bg-tt-cyan/10">
+                    TIKTOK LIVE 高画質配信専門プロデュース
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black leading-tight mb-6 tracking-tight">
+                    スマホ配信から卒業。<br>
+                    <span class="text-gradient">圧倒的高画質</span>で<br>
+                    ライバルに差をつけろ。
+                </h1>
+                <p class="text-gray-400 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
+                    TikTok Liveのアルゴリズムに愛される「高画質・高音質」なPC配信環境を完全プロデュース。機材選定からOBS設定まで丸投げOK。
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#contact" class="neon-border rounded-full group cursor-pointer">
+                        <div class="bg-dark-bg text-white font-bold py-4 px-10 rounded-full flex items-center justify-center gap-2 group-hover:bg-transparent transition-all duration-300">
+                            今すぐ無料相談する
+                            <i class="ph ph-arrow-right text-xl"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="relative hidden justify-center md:flex" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                <!-- Mockup Illustration -->
+                <div class="relative w-full max-w-lg aspect-square">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-tt-magenta/20 to-tt-cyan/20 rounded-2xl transform rotate-3 glass-panel"></div>
+                    <div class="absolute inset-0 bg-card-bg rounded-2xl border border-gray-700 shadow-2xl overflow-hidden flex flex-col">
+                        <!-- Mockup Header -->
+                        <div class="h-8 bg-gray-800 border-b border-gray-700 flex items-center px-4 gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <!-- Mockup Body (OBS UI representation) -->
+                        <div class="flex-1 p-4 flex gap-4">
+                            <div class="w-3/4 bg-black rounded-lg relative overflow-hidden group">
+                                <img src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&q=80&w=800" alt="Stream Preview" class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal transition-all duration-500">
+                                <div class="absolute top-4 right-4 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded animate-pulse">LIVE</div>
+                            </div>
+                            <div class="w-1/4 flex flex-col gap-2">
+                                <div class="h-1/3 bg-gray-800 rounded-lg p-2">
+                                    <div class="text-[10px] text-gray-400 mb-1">Audio Mixer</div>
+                                    <div class="w-full h-2 bg-gray-900 rounded-full overflow-hidden">
+                                        <div class="w-[85%] h-full bg-gradient-to-r from-green-400 via-yellow-400 to-red-400"></div>
+                                    </div>
+                                </div>
+                                <div class="flex-1 bg-gray-800 rounded-lg p-2">
+                                    <div class="text-[10px] text-gray-400 mb-2">Sources</div>
+                                    <div class="flex items-center gap-2 mb-2 text-xs text-tt-cyan"><i class="ph ph-camera"></i> Sony a7IV</div>
+                                    <div class="flex items-center gap-2 mb-2 text-xs text-white"><i class="ph ph-microphone-stage"></i> Shure SM7B</div>
+                                    <div class="flex items-center gap-2 text-xs text-white"><i class="ph ph-monitor"></i> Screen</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Floating Badge -->
+                    <div class="absolute -bottom-6 -right-6 glass-panel p-4 rounded-xl border border-white/10 shadow-xl animate-bounce" style="animation-duration: 3s;">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-gradient-tt flex items-center justify-center">
+                                <i class="ph ph-trend-up text-2xl text-white"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-400">視聴者滞在時間</div>
+                                <div class="font-bold text-xl">+320%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problems Section -->
+    <section id="problems" class="py-24 relative bg-card-bg/50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">こんな<span class="text-tt-magenta">お悩み</span>ありませんか？</h2>
+                <p class="text-gray-400">スマホ配信から抜け出せないライバーの共通の壁</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 text-red-500">
+                        <i class="ph ph-video-camera-slash text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">画質が悪くて離脱される</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">スマホのインカメラでは暗い部屋でノイズが乗りやすく、リスナーがすぐに他の枠へ移動してしまう。</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-14 h-14 bg-yellow-500/10 rounded-xl flex items-center justify-center mb-6 text-yellow-500">
+                        <i class="ph ph-warning-circle text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">配信がカクつく・落ちる</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">長時間の配信でスマホが熱を持ち、処理落ちや強制終了が発生。大事なイベントで台無しに。</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-14 h-14 bg-gray-500/10 rounded-xl flex items-center justify-center mb-6 text-gray-400">
+                        <i class="ph ph-users text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">他のライバーに埋もれる</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">エフェクトやテロップを出せず、演出が単調。トップライバーとの明確な「質の差」を感じている。</p>
+                </div>
+            </div>
+            
+            <div class="mt-16 text-center" data-aos="fade-in" data-aos-delay="300">
+                <p class="text-xl font-bold">
+                    その問題、<span class="text-gradient text-2xl">PC配信環境の構築</span>で全て解決します。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <span class="text-tt-cyan font-bold tracking-widest text-sm uppercase">Our Services</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-2 mb-6">丸投げOK。<br>プロの配信環境をあなたに。</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">PCの知識ゼロでも安心。機材の選定から、複雑なソフトの設定、稼働テストまでフルサポートします。</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <!-- Feature 1 -->
+                    <div class="flex gap-4" data-aos="fade-right" data-aos-delay="0">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-tt flex items-center justify-center text-white font-bold">1</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">最適な機材のご提案</h3>
+                            <p class="text-gray-400 text-sm">ご予算とお部屋の環境に合わせて、PC、高品質カメラ（一眼レフ等）、マイク、照明のベストな組み合わせをリストアップします。</p>
+                        </div>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="flex gap-4" data-aos="fade-right" data-aos-delay="100">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-tt flex items-center justify-center text-white font-bold">2</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">OBS / TikTok Live Studio リモート設定</h3>
+                            <p class="text-gray-400 text-sm">ご自宅のPCに遠隔でアクセスし、カクつきのない最適なエンコード設定、シーン構築、カラーコレクションを代行します。</p>
+                        </div>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="flex gap-4" data-aos="fade-right" data-aos-delay="200">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-tt flex items-center justify-center text-white font-bold">3</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">音声・画質の究極チューニング</h3>
+                            <p class="text-gray-400 text-sm">ノイズ除去、コンプレッサー設定で「声の魅力を最大化」。カメラ設定で「肌が一番綺麗に見える」明るさと色味を調整します。</p>
+                        </div>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div class="flex gap-4" data-aos="fade-right" data-aos-delay="300">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-gradient-tt flex items-center justify-center text-white font-bold">4</div>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">独自テロップ・オーバーレイ作成</h3>
+                            <p class="text-gray-400 text-sm">あなたの枠だけのオリジナルデザイン枠、ギフティング時の特殊エフェクト用ソースを配置し、リスナーを飽きさせません。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Image Side -->
+                <div class="relative" data-aos="zoom-in" data-aos-delay="200">
+                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800" alt="Professional Setup" class="rounded-2xl border border-gray-800 shadow-2xl">
+                    <!-- Overlay Grid -->
+                    <div class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px] rounded-2xl pointer-events-none"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing / Benefit Banner -->
+    <section class="py-12 border-y border-white/10 bg-tt-magenta/5">
+        <div class="max-w-7xl mx-auto px-6 text-center" data-aos="fade-up">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">高画質化は「最強の投資」です</h2>
+            <div class="flex flex-wrap justify-center gap-8 mt-8">
+                <div class="text-center">
+                    <div class="text-4xl font-black text-tt-cyan mb-2">1.5x</div>
+                    <div class="text-sm text-gray-400">平均滞在時間延長</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-black text-tt-magenta mb-2">Up!</div>
+                    <div class="text-sm text-gray-400">おすすめ乗りの向上</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-4xl font-black text-white mb-2">Pro</div>
+                    <div class="text-sm text-gray-400">プロライバーの権威性獲得</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="py-24 bg-card-bg/30">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">導入までの<span class="text-gradient">3ステップ</span></h2>
+                <p class="text-gray-400">ご相談から最短1週間でプロ仕様のハイエンド配信が可能に。</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 relative">
+                <!-- Connecting Line for Desktop -->
+                <div class="hidden md:block absolute top-[40%] left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-tt-cyan to-tt-magenta z-0"></div>
+
+                <div class="glass-panel p-8 rounded-2xl relative z-10 text-center" data-aos="fade-up" data-aos-delay="0">
+                    <div class="w-16 h-16 mx-auto bg-dark-bg border-2 border-tt-cyan rounded-full flex items-center justify-center text-2xl font-bold mb-6 text-tt-cyan">1</div>
+                    <h3 class="text-xl font-bold mb-3">無料ヒアリング</h3>
+                    <p class="text-gray-400 text-sm">現在の配信環境、予算、目指したい配信スタイルをオンラインでお伺いし、最適なプランをご提案します。</p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl relative z-10 text-center" data-aos="fade-up" data-aos-delay="150">
+                    <div class="w-16 h-16 mx-auto bg-dark-bg border-2 border-white rounded-full flex items-center justify-center text-2xl font-bold mb-6 text-white">2</div>
+                    <h3 class="text-xl font-bold mb-3">最適機材の選定</h3>
+                    <p class="text-gray-400 text-sm">プロの知見で無駄な買い物を排除。あなたの予算を、配信の質と結果を担保する「投資」へと最適化します。</p>
+                </div>
+
+                <div class="glass-panel p-8 rounded-2xl relative z-10 text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 mx-auto bg-dark-bg border-2 border-tt-magenta rounded-full flex items-center justify-center text-2xl font-bold mb-6 text-tt-magenta">3</div>
+                    <h3 class="text-xl font-bold mb-3">訪問セットアップ</h3>
+                    <p class="text-gray-400 text-sm">ご自宅へ伺い、カメラ・マイク・OBSの設定から物理的な配置までプロが構築。最終テストを行い、完璧に仕上げます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-tt-magenta font-bold tracking-widest text-sm uppercase">Pricing Plans</span>
+                <h2 class="text-3xl md:text-5xl font-bold mt-2 mb-4">ニーズに合わせた<span class="text-gradient">2つのサブスクプラン</span></h2>
+                <p class="text-gray-400">初期構築だけでなく、継続的な質の向上とトラブル対応をサポートします。</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                <!-- Standard Plan -->
+                <div class="glass-panel p-8 rounded-2xl relative border border-gray-800 hover:border-tt-cyan transition-colors flex flex-col" data-aos="fade-up" data-aos-delay="0">
+                    <h3 class="text-2xl font-bold mb-2">Standard</h3>
+                    <p class="text-gray-400 text-sm mb-6">配信環境の維持と基本サポート</p>
+                    <div class="text-4xl font-black mb-6">¥15,000<span class="text-lg text-gray-500 font-normal"> / 月</span></div>
+                    
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-start gap-3 text-sm text-gray-300"><i class="ph-fill ph-check-circle text-tt-cyan mt-0.5 text-lg"></i> 月1回のリモート環境メンテナンス</li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300"><i class="ph-fill ph-check-circle text-tt-cyan mt-0.5 text-lg"></i> チャットでのいつでも相談（48時間以内返信）</li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300"><i class="ph-fill ph-check-circle text-tt-cyan mt-0.5 text-lg"></i> トラブル時の優先対応</li>
+                    </ul>
+                    
+                    <a href="#contact" class="w-full block py-3 rounded-full border border-tt-cyan text-tt-cyan text-center font-bold hover:bg-tt-cyan hover:text-dark-bg transition-colors">
+                        このプランで問い合わせる
+                    </a>
+                </div>
+
+                <!-- Premium Plan -->
+                <div class="glass-panel p-8 rounded-2xl relative border border-tt-magenta neon-border flex flex-col transform md:-translate-y-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-tt text-white text-xs font-bold px-4 py-1 rounded-full">Recommend</div>
+                    <h3 class="text-2xl font-bold mb-2">Premium</h3>
+                    <p class="text-gray-400 text-sm mb-6">常に進化し続けるプロ仕様のフルサポート</p>
+                    <div class="text-4xl font-black text-white mb-6">¥30,000<span class="text-lg text-gray-500 font-normal"> / 月</span></div>
+                    
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-start gap-3 text-sm text-gray-300"><i class="ph-fill ph-check-circle text-tt-magenta mt-0.5 text-lg"></i> 月2回のリモート環境メンテナンス</li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300"><i class="ph-fill ph-check-circle text-tt-magenta mt-0.5 text-lg"></i> チャットでの最優先対応（24時間以内返信）</li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300"><i class="ph-fill ph-check-circle text-tt-magenta mt-0.5 text-lg"></i> トラブル発生時の即時リモート復旧</li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300"><i class="ph-fill ph-check-circle text-tt-magenta mt-0.5 text-lg"></i> 毎月1つ、オリジナルテロップやエフェクトの制作</li>
+                        <li class="flex items-start gap-3 text-sm text-gray-300"><i class="ph-fill ph-check-circle text-tt-magenta mt-0.5 text-lg"></i> 配信アナリティクスに基づく改善コンサル（月1回）</li>
+                    </ul>
+                    
+                    <a href="#contact" class="w-full block py-3 rounded-full bg-gradient-tt text-white text-center font-bold hover:shadow-[0_0_20px_rgba(254,9,121,0.4)] transition-shadow">
+                        このプランで問い合わせる
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact/CTA Section -->
+    <section id="contact" class="py-24 relative overflow-hidden">
+        <!-- Background elements -->
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-tt-magenta/10"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+            <div data-aos="zoom-in">
+                <h2 class="text-4xl md:text-6xl font-black mb-6">
+                    本気でトップを目指すなら、<br>
+                    <span class="text-gradient">環境への投資</span>を。
+                </h2>
+                <p class="text-xl mb-12 text-gray-300">まずは現在の悩みをお聞かせください。<br>完全無料でヒアリングと改善提案を行います。</p>
+                
+                <a href="#" class="inline-block" onclick="alert('実際の運用時は公式LINEやGoogleフォームへのリンクを設定します。')">
+                    <div class="neon-border rounded-full p-1 cursor-pointer transform hover:scale-105 transition-all duration-300 shadow-[0_0_40px_rgba(254,9,121,0.5)]">
+                        <div class="bg-dark-bg px-12 py-5 rounded-full flex items-center gap-3">
+                            <i class="ph-fill ph-chat-circle-text text-3xl text-tt-cyan"></i>
+                            <span class="text-2xl font-bold text-white">公式LINEで無料相談する</span>
+                        </div>
+                    </div>
+                </a>
+                <p class="text-sm text-gray-500 mt-6">※毎月先着5枠限定のサポートとなります</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-8 border-t border-white/10 text-center">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-2xl font-black italic tracking-tighter mb-4">
+                <span class="text-white">LIVE</span><span class="text-gradient">PRO</span>
+            </div>
+            <p class="text-gray-500 text-sm">&copy; 2026 GRAPHICA Consulting. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Initialize AOS Animation -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true, // whether animation should happen only once - while scrolling down
+            offset: 100, // offset (in px) from the original trigger point
+        });
+
+        // Simple smooth scroll behavior for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

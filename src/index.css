@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-tt-cyan: #00f2fe;
+  --color-tt-magenta: #fe0979;
+  --color-dark-bg: #0f0f13;
+  --color-card-bg: #1c1c24;
+  
+  --font-sans: 'Inter', 'Noto Sans JP', sans-serif;
+}
+
+/* Custom Styles & Animation Tweaks */
+body {
+    background-color: var(--color-dark-bg);
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--color-tt-cyan) 0%, var(--color-tt-magenta) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+.neon-border {
+    position: relative;
+}
+
+.neon-border::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, var(--color-tt-cyan), var(--color-tt-magenta), var(--color-tt-cyan));
+    z-index: -1;
+    border-radius: inherit;
+    background-size: 200% 200%;
+    animation: moveGradient 3s linear infinite;
+}
+
+@keyframes moveGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.glass-panel {
+    background: rgba(28, 28, 36, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Abstract shapes */
+.shape-blob {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.3) 0%, rgba(254, 9, 121, 0.3) 100%);
+    filter: blur(90px);
+    position: absolute;
+    z-index: -1;
+    border-radius: 50%;
+}
