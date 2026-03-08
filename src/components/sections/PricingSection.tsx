@@ -31,8 +31,10 @@ export default function PricingSection() {
               Base Plan
             </div>
             <h3 className="text-3xl md:text-5xl font-black mb-4 flex items-center justify-center gap-4 relative">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-tt-cyan to-blue-500 drop-shadow-[0_0_15px_rgba(0,242,254,0.5)]">
-                PHASE 1
+              <span style={{ filter: 'drop-shadow(0 0 15px rgba(0, 242, 254, 0.5))' }}>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-tt-cyan to-blue-500">
+                  PHASE 1
+                </span>
               </span>
               <span className="h-8 w-px bg-gray-700 hidden md:block"></span>
               <span className="text-white drop-shadow-lg text-2xl md:text-4xl mt-1 md:mt-0">初期環境構築</span>
@@ -94,8 +96,10 @@ export default function PricingSection() {
               Optional Phase
             </div>
             <h3 className="text-3xl md:text-5xl font-black mb-4 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 relative text-center">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-300 via-white to-gray-300 drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]">
-                PHASE 2
+              <span style={{ filter: 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.4))' }}>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-300 via-white to-gray-300">
+                  PHASE 2
+                </span>
               </span>
               <span className="h-8 w-px bg-gray-700 hidden md:block"></span>
               <span className="text-white drop-shadow-lg text-2xl md:text-4xl mt-1 md:mt-0">導入後のサポートサブスク</span>
@@ -248,8 +252,10 @@ export default function PricingSection() {
               Optional Phase
             </div>
             <h3 className="text-3xl md:text-5xl font-black mb-4 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4 relative text-center">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-tt-magenta to-pink-500 drop-shadow-[0_0_15px_rgba(254,9,121,0.5)]">
-                PHASE 3
+              <span style={{ filter: 'drop-shadow(0 0 15px rgba(254, 9, 121, 0.5))' }}>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-tt-magenta to-pink-500">
+                  PHASE 3
+                </span>
               </span>
               <span className="h-8 w-px bg-gray-700 hidden md:block"></span>
               <span className="text-white drop-shadow-lg text-2xl md:text-4xl mt-1 md:mt-0">AI動画 ＆ 動画撮影投稿</span>
