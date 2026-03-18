@@ -45,6 +45,20 @@ export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
             無料相談する
           </button>
         </div>
+        <div className="flex md:hidden items-center gap-2">
+          <button
+            onClick={onOpenEstimateModal}
+            className="rounded-full bg-[#06C755] px-3 py-2 text-[11px] font-bold text-white shadow-[0_0_20px_rgba(6,199,85,0.24)]"
+          >
+            見積り
+          </button>
+          <button
+            onClick={() => scrollTo('contact')}
+            className="rounded-full bg-white px-3 py-2 text-[11px] font-bold text-dark-bg"
+          >
+            無料相談
+          </button>
+        </div>
       </div>
     </nav>
   );

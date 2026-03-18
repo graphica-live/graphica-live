@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, CheckCircle } from '@phosphor-icons/react';
+import { ORIGINAL_TECHNICAL_FEE, TECHNICAL_FEE } from '../../constants/pricing';
 
 type PricingSectionProps = {
   onOpenEstimateModal: () => void;
@@ -8,6 +9,7 @@ type PricingSectionProps = {
 
 export default function PricingSection({ onOpenEstimateModal }: PricingSectionProps) {
   const [isYearly, setIsYearly] = useState(false);
+  const formatCurrency = (value: number) => new Intl.NumberFormat('ja-JP').format(value);
 
   return (
     <section id="pricing" className="py-24 relative">
@@ -69,19 +71,15 @@ export default function PricingSection({ onOpenEstimateModal }: PricingSectionPr
                       <span className="px-2.5 py-1 bg-tt-magenta text-white text-[10px] md:text-sm font-black tracking-wider rounded-md animate-pulse shadow-[0_0_15px_rgba(254,9,121,0.6)] border border-white/20">
                         期間限定 50%OFF!
                       </span>
-                      <span className="line-through text-gray-500 font-bold text-sm md:text-lg">¥148,000</span>
+                      <span className="line-through text-gray-500 font-bold text-sm md:text-lg">¥{formatCurrency(ORIGINAL_TECHNICAL_FEE)}</span>
                     </div>
                     <div className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-tt-magenta to-red-400 drop-shadow-[0_0_15px_rgba(254,9,121,0.5)]">
-                      ¥74,000<span className="text-base text-gray-400 font-normal ml-1">（税込）</span>
+                      ¥{formatCurrency(TECHNICAL_FEE)}<span className="text-base text-gray-400 font-normal ml-1">（税込）</span>
                     </div>
                   </div>
                 </div>
                 <p className="text-gray-300 text-sm md:ml-10 leading-relaxed">
                   要件定義、機材選定、物理設営、オーディオルーティング、OBS最適化、Stream Deckマクロ構築など、プロ仕様の環境を作り上げるための全工程を含みます。
-                  <br />
-                  <span className="inline-block mt-2 text-tt-magenta font-bold bg-tt-magenta/10 px-2 py-1 rounded text-xs">
-                    ※ 物理的な機材設置・配線サポートは東京近郊エリア限定となります。
-                  </span>
                 </p>
               </div>
 
@@ -254,7 +252,7 @@ export default function PricingSection({ onOpenEstimateModal }: PricingSectionPr
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                   >
-                    ¥{isYearly ? "298,000" : "29,800"}
+                    ¥{isYearly ? "98,000" : "9,800"}
                   </motion.span>
                 </AnimatePresence>
                 <span className="text-sm text-gray-500 font-normal ml-1"> / {isYearly ? "年" : "月"}</span>

@@ -17,14 +17,14 @@ export default function HeroSection() {
           </div>
           <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6 tracking-tight">
             <span className="block text-2xl md:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-tt-magenta to-red-500 mb-2 drop-shadow-[0_0_10px_rgba(254,9,121,0.5)]">
-              【東京エリア限定】出張セットアップ
+              出張セットアップ
             </span>
             スマホ配信から卒業。<br/>
             <span className="text-gradient">圧倒的高画質</span>で<br/>
             ライバルに差をつけろ。
           </h1>
           <p className="text-gray-400 text-lg md:text-xl mb-10 leading-relaxed max-w-lg">
-            <strong className="text-white">東京密着のプロフェッショナルがあなたのご自宅・スタジオへ直接伺います。</strong><br/>
+            <strong className="text-white">プロフェッショナルがあなたのご自宅・スタジオへ直接伺います。</strong><br/>
             TikTok Liveのアルゴリズムに愛される「高画質・高音質」なPC配信環境を完全プロデュース。機材選定からOBS設定、面倒な配線まで丸投げOK。
           </p>
           
