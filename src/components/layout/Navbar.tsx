@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 
-export default function Navbar() {
+type NavbarProps = {
+  onOpenEstimateModal: () => void;
+};
+
+export default function Navbar({ onOpenEstimateModal }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -30,9 +34,17 @@ export default function Navbar() {
           <button onClick={() => scrollTo('process')} className="hover:text-tt-cyan transition-colors">流れ</button>
           <button onClick={() => scrollTo('pricing')} className="hover:text-tt-cyan transition-colors">料金プラン</button>
         </div>
-        <button onClick={() => scrollTo('contact')} className="hidden md:inline-block bg-white text-dark-bg font-bold py-2 px-6 rounded-full hover:scale-105 transition-transform duration-300">
-          無料相談する
-        </button>
+        <div className="hidden md:flex items-center gap-3">
+          <button
+            onClick={onOpenEstimateModal}
+            className="bg-[#06C755] text-white font-bold py-2 px-6 rounded-full hover:scale-105 transition-transform duration-300 shadow-[0_0_24px_rgba(6,199,85,0.28)]"
+          >
+            Webで見積り
+          </button>
+          <button onClick={() => scrollTo('contact')} className="bg-white text-dark-bg font-bold py-2 px-6 rounded-full hover:scale-105 transition-transform duration-300">
+            無料相談する
+          </button>
+        </div>
       </div>
     </nav>
   );

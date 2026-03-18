@@ -45,11 +45,59 @@ body {
     100% { background-position: 0% 50%; }
 }
 
+@keyframes estimatePulse {
+    0% { box-shadow: 0 0 0 0 rgba(125, 255, 138, 0.14), 0 0 30px rgba(125, 255, 138, 0.10); }
+    50% { box-shadow: 0 0 0 10px rgba(125, 255, 138, 0.025), 0 0 46px rgba(125, 255, 138, 0.18); }
+    100% { box-shadow: 0 0 0 0 rgba(125, 255, 138, 0), 0 0 30px rgba(125, 255, 138, 0.10); }
+}
+
+@keyframes estimateBeam {
+    0% { transform: translateX(-140%) skewX(-12deg); opacity: 0; }
+    15% { opacity: 0.8; }
+    45% { opacity: 0.35; }
+    100% { transform: translateX(420%) skewX(-12deg); opacity: 0; }
+}
+
 .glass-panel {
     background: rgba(28, 28, 36, 0.6);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.estimate-cta {
+    position: relative;
+    background:
+        radial-gradient(circle at 50% 35%, rgba(125, 255, 138, 0.22), transparent 24%),
+        linear-gradient(135deg, rgba(6, 20, 12, 0.98) 0%, rgba(11, 40, 22, 0.98) 48%, rgba(8, 14, 11, 0.98) 100%);
+    animation: estimatePulse 2.8s ease-in-out infinite;
+    cursor: pointer;
+    border-color: rgba(125, 255, 138, 0.7);
+}
+
+.estimate-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(120deg, rgba(125, 255, 138, 1), rgba(255, 255, 255, 0.18), rgba(125, 255, 138, 0.6));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.estimate-cta__beam {
+    animation: estimateBeam 3.2s linear infinite;
+}
+
+.estimate-cta:hover .estimate-cta__beam {
+    animation-duration: 1.6s;
+}
+
+.estimate-cta:hover {
+    transform: translateY(-1px);
 }
 
 /* Abstract shapes */

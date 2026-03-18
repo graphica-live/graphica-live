@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChatCircleText, X } from '@phosphor-icons/react';
+import { LINE_ADD_FRIEND_URL } from '../../constants/line';
 
 export default function ContactSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -72,7 +73,7 @@ export default function ContactSection() {
                 </div>
                 
                 <a 
-                  href="https://lin.ee/PYvVibID"
+                  href={LINE_ADD_FRIEND_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsModalOpen(false)}

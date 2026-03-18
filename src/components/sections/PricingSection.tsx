@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle } from '@phosphor-icons/react';
+import { ArrowUpRight, CheckCircle } from '@phosphor-icons/react';
 
-export default function PricingSection() {
+type PricingSectionProps = {
+  onOpenEstimateModal: () => void;
+};
+
+export default function PricingSection({ onOpenEstimateModal }: PricingSectionProps) {
   const [isYearly, setIsYearly] = useState(false);
 
   return (
@@ -92,6 +96,33 @@ export default function PricingSection() {
                   ご予算に合わせて最適解をご提案し、実費のみご負担いただきます。（マージン等は一切いただきません）
                 </p>
               </div>
+
+              <motion.button
+                type="button"
+                onClick={onOpenEstimateModal}
+                whileHover={{ y: -4, scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                className="estimate-cta group relative w-full overflow-hidden rounded-[999px] border px-8 py-8 text-center shadow-[0_0_45px_rgba(125,255,138,0.22)]"
+              >
+                <span className="pointer-events-none absolute inset-0 opacity-70">
+                  <span className="estimate-cta__beam absolute -left-1/4 top-0 h-full w-1/3 -skew-x-12 bg-white/10 blur-xl"></span>
+                  <span className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#7dff8a]/20 blur-3xl transition-transform duration-500 group-hover:scale-125"></span>
+                </span>
+                <span className="relative z-10 flex flex-col items-center justify-center gap-4">
+                  <span className="estimate-cta__icon inline-flex h-14 w-14 items-center justify-center rounded-full border bg-white/10 text-[#7dff8a] transition-all duration-300 group-hover:scale-110 group-hover:bg-[#7dff8a] group-hover:text-[#08140d]">
+                    <ArrowUpRight weight="bold" className="text-[30px]" />
+                  </span>
+                  <span className="block max-w-2xl">
+                    <span className="inline-flex items-center rounded-full border border-white/15 bg-white/8 px-3 py-1 text-[11px] font-black tracking-[0.18em] text-[#7dff8a] uppercase">
+                      Estimate CTA
+                    </span>
+                    <span className="mt-3 block text-xl md:text-3xl font-black leading-snug text-white">
+                      初期設定一式と機材実費を
+                      <span className="block text-[#7dff8a]">まとめて見積もる</span>
+                    </span>
+                  </span>
+                </span>
+              </motion.button>
             </div>
           </motion.div>
         </motion.div>
@@ -167,10 +198,6 @@ export default function PricingSection() {
               <ul className="space-y-3 mb-8 flex-1">
                 <li className="flex items-start gap-2 text-xs text-gray-400"><CheckCircle weight="fill" className="text-tt-cyan/50 mt-0.5 text-base flex-shrink-0" /> <span className="text-left">初期不良への対応</span></li>
               </ul>
-              
-              <a href="#contact" className="w-full block py-2.5 rounded-full border border-gray-600 text-gray-400 text-xs text-center font-bold hover:border-tt-cyan/50 hover:text-tt-cyan/80 transition-colors">
-                Freeで初期環境構築を申込み
-              </a>
             </motion.div>
 
             {/* Standard Plan */}
@@ -192,7 +219,7 @@ export default function PricingSection() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                   >
-                    ¥{isYearly ? "39,800" : "3,980"}
+                    ¥{isYearly ? "19,800" : "1,980"}
                   </motion.span>
                 </AnimatePresence>
                 <span className="text-sm text-gray-500 font-normal ml-1"> / {isYearly ? "年" : "月"}</span>
@@ -205,10 +232,6 @@ export default function PricingSection() {
                 <li className="flex items-start gap-2 text-xs text-gray-300"><CheckCircle weight="fill" className="text-tt-cyan mt-0.5 text-base flex-shrink-0" /> <span className="text-left">緊急時のプロによる現地対応の割引</span></li>
                 <li className="flex items-start gap-2 text-xs text-gray-300"><CheckCircle weight="fill" className="text-tt-cyan mt-0.5 text-base flex-shrink-0" /> <span className="text-left">AI動画・TikTok運用代行の割引</span></li>
               </ul>
-              
-              <a href="#contact" className="w-full block py-2.5 rounded-full border border-tt-cyan text-tt-cyan text-xs text-center font-bold hover:bg-tt-cyan hover:text-dark-bg transition-colors">
-                Standardで初期環境構築を申込み
-              </a>
             </motion.div>
 
             {/* Premium Plan */}
@@ -244,10 +267,6 @@ export default function PricingSection() {
                 <li className="flex items-start gap-2 text-xs text-gray-300"><CheckCircle weight="fill" className="text-yellow-400 mt-0.5 text-base flex-shrink-0" /> <span className="text-left">緊急時のプロによる現地対応の更なる割引・優先対応</span></li>
                 <li className="flex items-start gap-2 text-xs text-gray-300"><CheckCircle weight="fill" className="text-yellow-400 mt-0.5 text-base flex-shrink-0" /> <span className="text-left">AI動画・TikTok運用代行の更なる割引・優先対応</span></li>
               </ul>
-              
-              <a href="#contact" className="w-full block py-2.5 rounded-full bg-tt-cyan text-dark-bg text-xs text-center font-bold hover:shadow-[0_0_20px_rgba(0,242,254,0.4)] transition-shadow">
-                Premiumで初期環境構築を申込み
-              </a>
             </motion.div>
           </div>
         </motion.div>
@@ -297,14 +316,8 @@ export default function PricingSection() {
                 </p>
                 
                 <div className="mt-auto">
-                  <div className="p-4 bg-gray-900/50 rounded-xl border border-gray-800 text-center mb-4">
-                    <div className="text-gray-500 text-xs font-bold mb-1">費用</div>
-                    <div className="text-xl font-black text-white">
-                      お見積り
-                    </div>
-                  </div>
                   <a href="#contact" className="w-full block text-center px-4 py-2 rounded-full border border-gray-600 text-sm text-white hover:border-tt-cyan hover:text-tt-cyan transition-colors">
-                    詳細を聞く
+                    無料相談
                   </a>
                 </div>
               </div>
@@ -330,14 +343,8 @@ export default function PricingSection() {
                 </p>
                 
                 <div className="mt-auto">
-                  <div className="p-4 bg-gray-900/50 rounded-xl border border-gray-800 text-center mb-4">
-                    <div className="text-gray-500 text-xs font-bold mb-1">費用</div>
-                    <div className="text-xl font-black text-white">
-                      月額からお見積り
-                    </div>
-                  </div>
                   <a href="#contact" className="w-full block text-center px-4 py-2 rounded-full border border-gray-600 text-sm text-white hover:border-tt-magenta hover:text-tt-magenta transition-colors">
-                    詳細を聞く
+                    無料相談
                   </a>
                 </div>
               </div>
