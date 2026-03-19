@@ -5,6 +5,7 @@ export type EstimateFormState = {
   ownedLighting: string;
   audioPreference: string;
   videoPreference: string;
+  beforeAfterPermission: string;
   prefecture: string;
   municipality: string;
 };
@@ -20,8 +21,14 @@ export const GUIDE_ESTIMATE_MIN = 100000;
 export const GUIDE_ESTIMATE_MAX = 1000000;
 
 const REQUIRED_SELECTION_FIELDS: Array<
-  'currentSetup' | 'ownedCamera' | 'ownedAudio' | 'ownedLighting' | 'audioPreference' | 'videoPreference'
-> = ['currentSetup', 'ownedCamera', 'ownedAudio', 'ownedLighting', 'audioPreference', 'videoPreference'];
+  | 'currentSetup'
+  | 'ownedCamera'
+  | 'ownedAudio'
+  | 'ownedLighting'
+  | 'audioPreference'
+  | 'videoPreference'
+  | 'beforeAfterPermission'
+> = ['currentSetup', 'ownedCamera', 'ownedAudio', 'ownedLighting', 'audioPreference', 'videoPreference', 'beforeAfterPermission'];
 
 export function isNearbyArea(prefecture: string) {
   return /(東京|神奈川|埼玉|千葉)/.test(prefecture);
@@ -64,6 +71,7 @@ export function getEstimateHeading(formState: EstimateFormState) {
 export function buildEstimate(formState: EstimateFormState) {
   let equipmentMin = BASE_EQUIPMENT_ESTIMATE_MIN;
   let equipmentMax = BASE_EQUIPMENT_ESTIMATE_MAX;
+  const technicalFee = formState.beforeAfterPermission === '提供不可' ? ORIGINAL_TECHNICAL_FEE : TECHNICAL_FEE;
 
   if (formState.currentSetup === 'PC配信中だが機材を入れ替えたい') {
     equipmentMin -= 300000;
@@ -101,7 +109,7 @@ export function buildEstimate(formState: EstimateFormState) {
   }
 
   return {
-    totalMin: TECHNICAL_FEE + Math.max(equipmentMin, 0),
-    totalMax: TECHNICAL_FEE + Math.max(equipmentMax, 0),
+    totalMin: technicalFee + Math.max(equipmentMin, 0),
+    totalMax: technicalFee + Math.max(equipmentMax, 0),
   };
 }

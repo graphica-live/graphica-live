@@ -26,7 +26,8 @@ type RequiredSelectionField =
   | 'ownedAudio'
   | 'ownedLighting'
   | 'audioPreference'
-  | 'videoPreference';
+  | 'videoPreference'
+  | 'beforeAfterPermission';
 
 const DEFAULT_PREFECTURE = '東京都';
 const DEFAULT_MUNICIPALITY =
@@ -38,6 +39,7 @@ const requiredSelectionFields: RequiredSelectionField[] = [
   'ownedLighting',
   'audioPreference',
   'videoPreference',
+  'beforeAfterPermission',
 ];
 
 const initialFormState: FormState = {
@@ -47,6 +49,7 @@ const initialFormState: FormState = {
   ownedLighting: '',
   audioPreference: '',
   videoPreference: '',
+  beforeAfterPermission: '',
   prefecture: DEFAULT_PREFECTURE,
   municipality: DEFAULT_MUNICIPALITY,
 };
@@ -75,6 +78,14 @@ function getFieldStatus(hasValue: boolean) {
         label: '未入力',
         className: 'border border-amber-400/35 bg-amber-500/12 text-amber-200',
       };
+}
+
+function getBeforeAfterSelectClass(value: string) {
+  if (value === '提供可能(-74,000円)') {
+    return 'estimate-select w-full rounded-2xl border border-sky-400/45 bg-sky-500/10 px-4 py-3 text-sm text-sky-100 outline-none transition-colors focus:border-sky-300';
+  }
+
+  return getSelectClass(Boolean(value));
 }
 
 function AnimatedEstimateValue({ value, className }: { value: string; className?: string }) {
@@ -175,6 +186,7 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
       `お持ちの照明設備: ${formState.ownedLighting}`,
       `映像環境についてのご希望: ${formState.videoPreference}`,
       `音声環境についてのご希望: ${formState.audioPreference}`,
+      `弊社アカウントによるビフォーアフターの動画投稿を許可いただけますか？20秒程の画面録画をご提供いただきます。(コメント欄なし、音声なし): ${formState.beforeAfterPermission}`,
       `配信場所の所在地: ${locationLabel}`,
       '',
       '【Web簡易見積り結果】',
@@ -349,6 +361,25 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
                     <option>標準構成で進めたい</option>
                     <option>費用がかかってもこだわりたい</option>
                   </select>
+                </label>
+
+                <label className="block md:col-span-2">
+                  <span className="mb-2 flex items-center justify-between gap-3 text-sm font-bold text-white">
+                    <span>弊社アカウントによるビフォーアフターの動画投稿を許可いただけますか？20秒程の画面録画をご提供いただきます。(コメント欄なし、音声なし)</span>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${getFieldStatus(Boolean(formState.beforeAfterPermission)).className}`}>
+                      {getFieldStatus(Boolean(formState.beforeAfterPermission)).label}
+                    </span>
+                  </span>
+                  <select
+                    value={formState.beforeAfterPermission}
+                    onChange={handleChange('beforeAfterPermission')}
+                    className={getBeforeAfterSelectClass(formState.beforeAfterPermission)}
+                  >
+                    <option value="">選択してください</option>
+                    <option>提供可能(-74,000円)</option>
+                    <option>提供不可</option>
+                  </select>
+                  <p className="mt-2 text-xs font-bold text-sky-300">提供可能を選択いただくと技術料から -74,000円 を反映します。</p>
                 </label>
 
                 <label className="block md:col-span-2">

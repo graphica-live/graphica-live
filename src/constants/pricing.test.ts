@@ -4,6 +4,7 @@ import {
   BASE_EQUIPMENT_ESTIMATE_MIN,
   GUIDE_ESTIMATE_MAX,
   GUIDE_ESTIMATE_MIN,
+  ORIGINAL_TECHNICAL_FEE,
   PREMIUM_AUDIO_SURCHARGE,
   PREMIUM_VIDEO_SURCHARGE,
   REMOTE_AREA_SURCHARGE,
@@ -27,6 +28,7 @@ describe('pricing', () => {
       ownedLighting: '持っていない',
       audioPreference: '標準構成で進めたい',
       videoPreference: '標準構成で進めたい',
+      beforeAfterPermission: '提供可能(-74,000円)',
       prefecture: '東京都',
       municipality: '渋谷区',
     });
@@ -43,6 +45,7 @@ describe('pricing', () => {
       ownedLighting: '持っていない',
       audioPreference: '標準構成で進めたい',
       videoPreference: '標準構成で進めたい',
+      beforeAfterPermission: '提供可能(-74,000円)',
       prefecture: '大阪府',
       municipality: '大阪市',
     });
@@ -59,6 +62,7 @@ describe('pricing', () => {
       ownedLighting: '持っていない',
       audioPreference: '標準構成で進めたい',
       videoPreference: '費用がかかってもこだわりたい',
+      beforeAfterPermission: '提供可能(-74,000円)',
       prefecture: '東京都',
       municipality: '渋谷区',
     });
@@ -75,12 +79,30 @@ describe('pricing', () => {
       ownedLighting: '持っていない',
       audioPreference: '費用がかかってもこだわりたい',
       videoPreference: '標準構成で進めたい',
+      beforeAfterPermission: '提供可能(-74,000円)',
       prefecture: '東京都',
       municipality: '渋谷区',
     });
 
     expect(estimate.totalMin).toBe(TECHNICAL_FEE + BASE_EQUIPMENT_ESTIMATE_MIN + PREMIUM_AUDIO_SURCHARGE);
     expect(estimate.totalMax).toBe(TECHNICAL_FEE + BASE_EQUIPMENT_ESTIMATE_MAX + PREMIUM_AUDIO_SURCHARGE);
+  });
+
+  it('提供不可の場合は技術料が倍額になる', () => {
+    const estimate = buildEstimate({
+      currentSetup: 'スマホ配信からPC配信へ移行したい',
+      ownedCamera: '持っていない',
+      ownedAudio: '持っていない',
+      ownedLighting: '持っていない',
+      audioPreference: '標準構成で進めたい',
+      videoPreference: '標準構成で進めたい',
+      beforeAfterPermission: '提供不可',
+      prefecture: '東京都',
+      municipality: '渋谷区',
+    });
+
+    expect(estimate.totalMin).toBe(ORIGINAL_TECHNICAL_FEE + BASE_EQUIPMENT_ESTIMATE_MIN);
+    expect(estimate.totalMax).toBe(ORIGINAL_TECHNICAL_FEE + BASE_EQUIPMENT_ESTIMATE_MAX);
   });
 
   it('地域以外が未選択なら送信前の完了条件を満たさない', () => {
@@ -92,6 +114,7 @@ describe('pricing', () => {
         ownedLighting: '',
         audioPreference: '',
         videoPreference: '',
+        beforeAfterPermission: '',
         prefecture: '東京都',
         municipality: '渋谷区',
       }),
@@ -107,6 +130,7 @@ describe('pricing', () => {
         ownedLighting: '持っていない',
         audioPreference: '標準構成で進めたい',
         videoPreference: '標準構成で進めたい',
+        beforeAfterPermission: '提供可能(-74,000円)',
         prefecture: '東京都',
         municipality: '渋谷区',
       }),
@@ -121,6 +145,7 @@ describe('pricing', () => {
       ownedLighting: 'ソフトボックス等の照明設備を持っている',
       audioPreference: '標準構成で進めたい',
       videoPreference: '費用がかかってもこだわりたい',
+      beforeAfterPermission: '提供可能(-74,000円)',
       prefecture: '東京都',
       municipality: '新宿区',
     });
