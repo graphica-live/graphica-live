@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Users, ChartLineDown, Star } from '@phosphor-icons/react';
+import { Users, ChartLineDown, Star, SpeakerHigh } from '@phosphor-icons/react';
 
 export default function ProblemsSection() {
   const container = {
@@ -34,7 +34,7 @@ export default function ProblemsSection() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-2 xl:grid-cols-4 gap-8"
         >
           {/* Card 1 */}
           <motion.div variants={item} className="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 text-center flex flex-col items-center">
@@ -59,6 +59,14 @@ export default function ProblemsSection() {
             </div>
             <h3 className="text-xl font-bold mb-3">アルゴリズムによる不遇</h3>
             <p className="text-gray-400 text-sm leading-relaxed">画質や音質の低さ、配信のカクつきは離脱率を高め、アプリ側の評価（おすすめ表示）を大きく下げる原因になります。</p>
+          </motion.div>
+          {/* Card 4 */}
+          <motion.div variants={item} className="glass-panel p-8 rounded-2xl hover:-translate-y-2 transition-transform duration-300 text-center flex flex-col items-center">
+            <div className="w-14 h-14 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6 text-emerald-400 mx-auto">
+              <SpeakerHigh weight="fill" className="text-3xl" />
+            </div>
+            <h3 className="text-xl font-bold mb-3">ワンランク上の音が欲しい</h3>
+            <p className="text-gray-400 text-sm leading-relaxed">声の艶や抜け感、自分のトークや歌の魅力を最大限に伝えるには、今の環境ではまだ不十分。音まで含めて"選ばれる配信"に引き上げたい。</p>
           </motion.div>
         </motion.div>
         

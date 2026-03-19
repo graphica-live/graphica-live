@@ -65,6 +65,19 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.estimate-select {
+    color-scheme: dark;
+}
+
+.estimate-select option {
+    background: #f6f8fb;
+    color: #101828;
+}
+
+.estimate-select option[value=""] {
+    color: #667085;
+}
+
 .estimate-cta {
     position: relative;
     background:

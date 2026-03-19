@@ -3,6 +3,8 @@ export type EstimateFormState = {
   ownedCamera: string;
   ownedAudio: string;
   ownedLighting: string;
+  audioPreference: string;
+  videoPreference: string;
   prefecture: string;
   municipality: string;
 };
@@ -12,9 +14,21 @@ export const ORIGINAL_TECHNICAL_FEE = 148000;
 export const BASE_EQUIPMENT_ESTIMATE_MIN = 626000;
 export const BASE_EQUIPMENT_ESTIMATE_MAX = 826000;
 export const REMOTE_AREA_SURCHARGE = 100000;
+export const PREMIUM_AUDIO_SURCHARGE = 200000;
+export const PREMIUM_VIDEO_SURCHARGE = 100000;
+export const GUIDE_ESTIMATE_MIN = 100000;
+export const GUIDE_ESTIMATE_MAX = 1000000;
+
+const REQUIRED_SELECTION_FIELDS: Array<
+  'currentSetup' | 'ownedCamera' | 'ownedAudio' | 'ownedLighting' | 'audioPreference' | 'videoPreference'
+> = ['currentSetup', 'ownedCamera', 'ownedAudio', 'ownedLighting', 'audioPreference', 'videoPreference'];
 
 export function isNearbyArea(prefecture: string) {
   return /(東京|神奈川|埼玉|千葉)/.test(prefecture);
+}
+
+export function isEstimateFormComplete(formState: EstimateFormState) {
+  return REQUIRED_SELECTION_FIELDS.every((field) => formState[field]);
 }
 
 export function getEstimateHeading(formState: EstimateFormState) {
@@ -69,6 +83,16 @@ export function buildEstimate(formState: EstimateFormState) {
   if (formState.ownedLighting === 'ソフトボックス等の照明設備を持っている') {
     equipmentMin -= 110000;
     equipmentMax -= 110000;
+  }
+
+  if (formState.audioPreference === '費用がかかってもこだわりたい') {
+    equipmentMin += PREMIUM_AUDIO_SURCHARGE;
+    equipmentMax += PREMIUM_AUDIO_SURCHARGE;
+  }
+
+  if (formState.videoPreference === '費用がかかってもこだわりたい') {
+    equipmentMin += PREMIUM_VIDEO_SURCHARGE;
+    equipmentMax += PREMIUM_VIDEO_SURCHARGE;
   }
 
   if (formState.prefecture && !isNearbyArea(formState.prefecture)) {

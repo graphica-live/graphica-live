@@ -2,7 +2,14 @@ import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChatCircleText, X } from '@phosphor-icons/react';
 import { buildLineMessageUrl } from '../../constants/line';
-import { buildEstimate, getEstimateHeading, isNearbyArea, type EstimateFormState } from '../../constants/pricing';
+import {
+  GUIDE_ESTIMATE_MAX,
+  GUIDE_ESTIMATE_MIN,
+  buildEstimate,
+  getEstimateHeading,
+  isEstimateFormComplete,
+  type EstimateFormState,
+} from '../../constants/pricing';
 import { japanLocations } from '../../data/japanLocations';
 
 type EquipmentEstimateModalProps = {
@@ -13,16 +20,33 @@ type EquipmentEstimateModalProps = {
 type FormState = EstimateFormState;
 
 type FormField = keyof FormState;
+type RequiredSelectionField =
+  | 'currentSetup'
+  | 'ownedCamera'
+  | 'ownedAudio'
+  | 'ownedLighting'
+  | 'audioPreference'
+  | 'videoPreference';
 
 const DEFAULT_PREFECTURE = '東京都';
 const DEFAULT_MUNICIPALITY =
   japanLocations.find((entry) => entry.prefecture === DEFAULT_PREFECTURE)?.municipalities[0] ?? '';
+const requiredSelectionFields: RequiredSelectionField[] = [
+  'currentSetup',
+  'ownedCamera',
+  'ownedAudio',
+  'ownedLighting',
+  'audioPreference',
+  'videoPreference',
+];
 
 const initialFormState: FormState = {
-  currentSetup: 'スマホ配信からPC配信へ移行したい',
-  ownedCamera: '持っていない',
-  ownedAudio: '持っていない',
-  ownedLighting: '持っていない',
+  currentSetup: '',
+  ownedCamera: '',
+  ownedAudio: '',
+  ownedLighting: '',
+  audioPreference: '',
+  videoPreference: '',
   prefecture: DEFAULT_PREFECTURE,
   municipality: DEFAULT_MUNICIPALITY,
 };
@@ -35,16 +59,22 @@ function formatRange(min: number, max: number) {
   return `${formatCurrency(min)}〜${formatCurrency(max)}`;
 }
 
-function getLocationNote(prefecture: string) {
-  if (!prefecture) {
-    return 'エリア選択後に、訪問対応か配送対応かを含めた見積りコメントを反映します。';
-  }
+function getSelectClass(hasValue: boolean) {
+  return hasValue
+    ? 'estimate-select w-full rounded-2xl border border-[#06C755]/45 bg-[#06C755]/10 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-[#7dff8a]'
+    : 'estimate-select w-full rounded-2xl border border-amber-400/45 bg-amber-500/8 px-4 py-3 text-sm text-amber-100 outline-none transition-colors focus:border-amber-300';
+}
 
-  if (isNearbyArea(prefecture)) {
-    return '';
-  }
-
-  return '';
+function getFieldStatus(hasValue: boolean) {
+  return hasValue
+    ? {
+        label: '入力済み',
+        className: 'border border-[#06C755]/35 bg-[#06C755]/12 text-[#8cff9c]',
+      }
+    : {
+        label: '未入力',
+        className: 'border border-amber-400/35 bg-amber-500/12 text-amber-200',
+      };
 }
 
 export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEstimateModalProps) {
@@ -52,6 +82,9 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
 
   const prefectures = japanLocations.map((entry) => entry.prefecture);
   const municipalities = japanLocations.find((entry) => entry.prefecture === formState.prefecture)?.municipalities ?? [];
+  const isEstimateReady = isEstimateFormComplete(formState);
+  const completedFieldCount = requiredSelectionFields.filter((field) => formState[field]).length;
+  const remainingFieldCount = requiredSelectionFields.length - completedFieldCount;
 
   useEffect(() => {
     if (!isOpen) {
@@ -99,14 +132,16 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
     onClose();
   };
 
-  const estimate = {
-    ...buildEstimate(formState),
-    locationNote: getLocationNote(formState.prefecture),
-  };
-  const estimateHeading = getEstimateHeading(formState);
+  const estimate = isEstimateReady ? buildEstimate(formState) : null;
+  const estimateHeading = isEstimateReady ? getEstimateHeading(formState) : '条件を選択して概算を表示';
+  const displayEstimate = estimate ?? { totalMin: GUIDE_ESTIMATE_MIN, totalMax: GUIDE_ESTIMATE_MAX };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (!isEstimateReady || !estimate) {
+      return;
+    }
 
     const locationLabel =
       formState.prefecture && formState.municipality
@@ -119,6 +154,8 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
       `お持ちのカメラ: ${formState.ownedCamera}`,
       `お持ちのマイクとミキサー: ${formState.ownedAudio}`,
       `お持ちの照明設備: ${formState.ownedLighting}`,
+      `映像環境についてのご希望: ${formState.videoPreference}`,
+      `音声環境についてのご希望: ${formState.audioPreference}`,
       `配信場所の所在地: ${locationLabel}`,
       '',
       '【Web簡易見積り結果】',
@@ -165,56 +202,162 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
                 </div>
                 <h3 className="text-2xl font-black text-white md:text-3xl">Web簡易見積り</h3>
                 <p className="mt-3 text-sm leading-relaxed text-gray-400 md:text-base">
-                  まずは標準構成と機材未所有を前提に概算を表示します。お手持ちの機材や配信場所に応じて金額は調整されます。結果を公式LINEに送信すると詳細見積りへ進みます。
+                  地域以外の条件を選択すると概算金額を表示します。結果を公式LINEに送信すると詳細見積りへ進みます。
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2">
+              <form onSubmit={handleSubmit} className="grid gap-4 pb-24 md:grid-cols-2 md:pb-0">
+                <div className="rounded-2xl border border-white/10 bg-white/4 p-4 md:col-span-2">
+                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                    <div>
+                      <div className="text-xs font-black uppercase tracking-[0.2em] text-tt-cyan/80">Input Status</div>
+                      <p className="mt-2 text-sm font-bold text-white">
+                        {isEstimateReady
+                          ? '入力が完了しました。このまま概算確認と送信に進めます。'
+                          : `あと${remainingFieldCount}項目の選択で概算を表示します。`}
+                      </p>
+                    </div>
+                    <div className="inline-flex items-center gap-2 self-start rounded-full border border-white/10 bg-black/25 px-4 py-2 text-sm font-bold text-white">
+                      <span className="text-tt-cyan">{completedFieldCount}</span>
+                      / {requiredSelectionFields.length} 入力済み
+                    </div>
+                  </div>
+                </div>
+
+                <div className="sticky bottom-0 z-20 -mx-2 rounded-2xl border border-[#06C755]/25 bg-[#07130d]/92 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.28)] backdrop-blur md:hidden">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#7dff8a]">
+                        {isEstimateReady ? 'Quick Estimate' : 'Estimate Preview'}
+                      </div>
+                      <div className="mt-1 text-lg font-black text-white tabular-nums">
+                        {formatRange(displayEstimate.totalMin, displayEstimate.totalMax)}
+                      </div>
+                      <p className="mt-1 text-[11px] leading-relaxed text-[#c9f9cf]">
+                        {isEstimateReady
+                          ? '入力完了。このまま下のボタンから詳細見積りへ進めます。'
+                          : `あと${remainingFieldCount}項目で概算が確定します。`}
+                      </p>
+                    </div>
+                    <div className="shrink-0 rounded-full border border-white/10 bg-black/25 px-3 py-2 text-xs font-bold text-white">
+                      {completedFieldCount}/{requiredSelectionFields.length}
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={!isEstimateReady}
+                    className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#06C755] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[#06C755]/20 transition-colors hover:bg-[#05b34c] disabled:cursor-not-allowed disabled:bg-[#2b5c3b] disabled:text-white/60 disabled:shadow-none"
+                  >
+                    <ChatCircleText weight="fill" className="text-xl" />
+                    公式LINEで詳細見積りへ
+                  </button>
+                </div>
+
                 <label className="block">
-                  <span className="mb-2 block text-sm font-bold text-white">現在の状況</span>
+                  <span className="mb-2 flex items-center justify-between gap-3 text-sm font-bold text-white">
+                    <span>現在の状況</span>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${getFieldStatus(Boolean(formState.currentSetup)).className}`}>
+                      {getFieldStatus(Boolean(formState.currentSetup)).label}
+                    </span>
+                  </span>
                   <select
                     value={formState.currentSetup}
                     onChange={handleChange('currentSetup')}
-                    className="w-full rounded-2xl border border-gray-700 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-tt-cyan"
+                    className={getSelectClass(Boolean(formState.currentSetup))}
                   >
+                    <option value="">選択してください</option>
                     <option>スマホ配信からPC配信へ移行したい</option>
                     <option>PC配信中だが機材を入れ替えたい</option>
                   </select>
                 </label>
 
                 <label className="block">
-                  <span className="mb-2 block text-sm font-bold text-white">お持ちのカメラ</span>
+                  <span className="mb-2 flex items-center justify-between gap-3 text-sm font-bold text-white">
+                    <span>お持ちのカメラ</span>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${getFieldStatus(Boolean(formState.ownedCamera)).className}`}>
+                      {getFieldStatus(Boolean(formState.ownedCamera)).label}
+                    </span>
+                  </span>
                   <select
                     value={formState.ownedCamera}
                     onChange={handleChange('ownedCamera')}
-                    className="w-full rounded-2xl border border-gray-700 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-tt-cyan"
+                    className={getSelectClass(Boolean(formState.ownedCamera))}
                   >
+                    <option value="">選択してください</option>
                     <option>持っていない</option>
                     <option>ミラーレスカメラを所持している</option>
                   </select>
                 </label>
 
                 <label className="block">
-                  <span className="mb-2 block text-sm font-bold text-white">お持ちのマイクとミキサー</span>
+                  <span className="mb-2 flex items-center justify-between gap-3 text-sm font-bold text-white">
+                    <span>お持ちのマイクとミキサー</span>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${getFieldStatus(Boolean(formState.ownedAudio)).className}`}>
+                      {getFieldStatus(Boolean(formState.ownedAudio)).label}
+                    </span>
+                  </span>
                   <select
                     value={formState.ownedAudio}
                     onChange={handleChange('ownedAudio')}
-                    className="w-full rounded-2xl border border-gray-700 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-tt-cyan"
+                    className={getSelectClass(Boolean(formState.ownedAudio))}
                   >
+                    <option value="">選択してください</option>
                     <option>持っていない</option>
                     <option>マイクとミキサーを持っている</option>
                   </select>
                 </label>
 
                 <label className="block">
-                  <span className="mb-2 block text-sm font-bold text-white">お持ちの照明設備</span>
+                  <span className="mb-2 flex items-center justify-between gap-3 text-sm font-bold text-white">
+                    <span>お持ちの照明設備</span>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${getFieldStatus(Boolean(formState.ownedLighting)).className}`}>
+                      {getFieldStatus(Boolean(formState.ownedLighting)).label}
+                    </span>
+                  </span>
                   <select
                     value={formState.ownedLighting}
                     onChange={handleChange('ownedLighting')}
-                    className="w-full rounded-2xl border border-gray-700 bg-black/30 px-4 py-3 text-sm text-white outline-none transition-colors focus:border-tt-cyan"
+                    className={getSelectClass(Boolean(formState.ownedLighting))}
                   >
+                    <option value="">選択してください</option>
                     <option>持っていない</option>
                     <option>ソフトボックス等の照明設備を持っている</option>
+                  </select>
+                </label>
+
+                <label className="block md:col-span-2">
+                  <span className="mb-2 flex items-center justify-between gap-3 text-sm font-bold text-white">
+                    <span>映像環境についてのご希望</span>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${getFieldStatus(Boolean(formState.videoPreference)).className}`}>
+                      {getFieldStatus(Boolean(formState.videoPreference)).label}
+                    </span>
+                  </span>
+                  <select
+                    value={formState.videoPreference}
+                    onChange={handleChange('videoPreference')}
+                    className={getSelectClass(Boolean(formState.videoPreference))}
+                  >
+                    <option value="">選択してください</option>
+                    <option>標準構成で進めたい</option>
+                    <option>費用がかかってもこだわりたい</option>
+                  </select>
+                </label>
+
+                <label className="block md:col-span-2">
+                  <span className="mb-2 flex items-center justify-between gap-3 text-sm font-bold text-white">
+                    <span>音声環境についてのご希望</span>
+                    <span className={`rounded-full px-2.5 py-1 text-[11px] font-bold ${getFieldStatus(Boolean(formState.audioPreference)).className}`}>
+                      {getFieldStatus(Boolean(formState.audioPreference)).label}
+                    </span>
+                  </span>
+                  <select
+                    value={formState.audioPreference}
+                    onChange={handleChange('audioPreference')}
+                    className={getSelectClass(Boolean(formState.audioPreference))}
+                  >
+                    <option value="">選択してください</option>
+                    <option>標準構成で進めたい</option>
+                    <option>費用がかかってもこだわりたい</option>
                   </select>
                 </label>
 
@@ -253,10 +396,14 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
 
                   <div className="mt-5 grid gap-3 md:grid-cols-1">
                     <div className="rounded-2xl border border-[#7dff8a]/20 bg-[#7dff8a]/10 p-4">
-                      <div className="text-xs font-bold text-[#b8ffc0]">概算合計</div>
-                      <div className="mt-2 text-2xl font-black text-white">{formatRange(estimate.totalMin, estimate.totalMax)}</div>
+                      <div className="text-xs font-bold text-[#b8ffc0]">{isEstimateReady ? '概算合計' : '参考レンジ'}</div>
+                      <div className="mt-2 min-h-[2rem] text-2xl font-black text-white tabular-nums">
+                        {formatRange(displayEstimate.totalMin, displayEstimate.totalMax)}
+                      </div>
                       <p className="mt-2 text-sm leading-relaxed text-[#d7ffdc]">
-                        PC・カメラ・音響・照明をお持ちの場合は、この金額から下がる可能性があります。
+                        {isEstimateReady
+                          ? '選択した条件を反映した概算です。詳細は公式LINEで個別にご案内します。'
+                          : '地域以外の条件を選択すると、この場で概算金額を表示します。'}
                       </p>
                     </div>
                   </div>
@@ -272,7 +419,8 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
                   </button>
                   <button
                     type="submit"
-                    className="order-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#06C755] px-6 py-3 text-sm font-black text-white shadow-lg shadow-[#06C755]/20 transition-colors hover:bg-[#05b34c] md:order-2"
+                    disabled={!isEstimateReady}
+                    className="order-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-[#06C755] px-6 py-3 text-sm font-black text-white shadow-lg shadow-[#06C755]/20 transition-colors hover:bg-[#05b34c] disabled:cursor-not-allowed disabled:bg-[#2b5c3b] disabled:text-white/60 disabled:shadow-none md:order-2"
                   >
                     <ChatCircleText weight="fill" className="text-xl" />
                     公式LINEで詳細見積りへ
