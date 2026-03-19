@@ -217,7 +217,7 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
             exit={{ opacity: 0, scale: 0.96, y: 24 }}
             className="glass-panel relative z-10 w-full max-w-3xl rounded-3xl border border-tt-cyan/30 bg-card-bg shadow-[0_0_60px_rgba(0,242,254,0.12)]"
           >
-            <div className="max-h-[90vh] overflow-y-auto p-6 pb-44 md:p-8 md:pb-8">
+            <div className="max-h-[90vh] overflow-y-auto p-6 pb-[calc(16rem+env(safe-area-inset-bottom))] md:p-8 md:pb-8">
               <button
                 type="button"
                 onClick={handleClose}
