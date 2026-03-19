@@ -186,7 +186,7 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
             exit={{ opacity: 0, scale: 0.96, y: 24 }}
             className="glass-panel relative z-10 w-full max-w-3xl rounded-3xl border border-tt-cyan/30 bg-card-bg shadow-[0_0_60px_rgba(0,242,254,0.12)]"
           >
-            <div className="max-h-[90vh] overflow-y-auto p-6 md:p-8">
+            <div className="max-h-[90vh] overflow-y-auto p-6 pb-44 md:p-8 md:pb-8">
               <button
                 type="button"
                 onClick={handleClose}
@@ -206,7 +206,7 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="grid gap-4 pb-24 md:grid-cols-2 md:pb-0">
+              <form id="equipment-estimate-form" onSubmit={handleSubmit} className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-2xl border border-white/10 bg-white/4 p-4 md:col-span-2">
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div>
@@ -222,35 +222,6 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
                       / {requiredSelectionFields.length} 入力済み
                     </div>
                   </div>
-                </div>
-
-                <div className="sticky bottom-0 z-20 -mx-2 rounded-2xl border border-[#06C755]/25 bg-[#07130d]/92 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.28)] backdrop-blur md:hidden">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#7dff8a]">
-                        {isEstimateReady ? 'Quick Estimate' : 'Estimate Preview'}
-                      </div>
-                      <div className="mt-1 text-lg font-black text-white tabular-nums">
-                        {formatRange(displayEstimate.totalMin, displayEstimate.totalMax)}
-                      </div>
-                      <p className="mt-1 text-[11px] leading-relaxed text-[#c9f9cf]">
-                        {isEstimateReady
-                          ? '入力完了。このまま下のボタンから詳細見積りへ進めます。'
-                          : `あと${remainingFieldCount}項目で概算が確定します。`}
-                      </p>
-                    </div>
-                    <div className="shrink-0 rounded-full border border-white/10 bg-black/25 px-3 py-2 text-xs font-bold text-white">
-                      {completedFieldCount}/{requiredSelectionFields.length}
-                    </div>
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={!isEstimateReady}
-                    className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#06C755] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[#06C755]/20 transition-colors hover:bg-[#05b34c] disabled:cursor-not-allowed disabled:bg-[#2b5c3b] disabled:text-white/60 disabled:shadow-none"
-                  >
-                    <ChatCircleText weight="fill" className="text-xl" />
-                    公式LINEで詳細見積りへ
-                  </button>
                 </div>
 
                 <label className="block">
@@ -409,7 +380,7 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-3 pt-2 md:col-span-2 md:flex-row md:items-center md:justify-between">
+                <div className="hidden flex-col gap-3 pt-2 md:col-span-2 md:flex md:flex-row md:items-center md:justify-between">
                   <button
                     type="button"
                     onClick={handleClose}
@@ -427,6 +398,36 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
                   </button>
                 </div>
               </form>
+            </div>
+
+            <div className="absolute inset-x-3 bottom-3 z-20 rounded-2xl border border-[#06C755]/25 bg-[#07130d]/95 p-4 shadow-[0_-10px_30px_rgba(0,0,0,0.28)] backdrop-blur md:hidden">
+              <div className="flex items-center justify-between gap-4">
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#7dff8a]">
+                    {isEstimateReady ? 'Quick Estimate' : 'Estimate Preview'}
+                  </div>
+                  <div className="mt-1 text-lg font-black text-white tabular-nums">
+                    {formatRange(displayEstimate.totalMin, displayEstimate.totalMax)}
+                  </div>
+                  <p className="mt-1 text-[11px] leading-relaxed text-[#c9f9cf]">
+                    {isEstimateReady
+                      ? '入力完了。このまま下のボタンから詳細見積りへ進めます。'
+                      : `あと${remainingFieldCount}項目で概算が確定します。`}
+                  </p>
+                </div>
+                <div className="shrink-0 rounded-full border border-white/10 bg-black/25 px-3 py-2 text-xs font-bold text-white">
+                  {completedFieldCount}/{requiredSelectionFields.length}
+                </div>
+              </div>
+              <button
+                type="submit"
+                form="equipment-estimate-form"
+                disabled={!isEstimateReady}
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#06C755] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[#06C755]/20 transition-colors hover:bg-[#05b34c] disabled:cursor-not-allowed disabled:bg-[#2b5c3b] disabled:text-white/60 disabled:shadow-none"
+              >
+                <ChatCircleText weight="fill" className="text-xl" />
+                公式LINEで詳細見積りへ
+              </button>
             </div>
           </motion.div>
         </div>
