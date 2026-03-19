@@ -77,6 +77,24 @@ function getFieldStatus(hasValue: boolean) {
       };
 }
 
+function AnimatedEstimateValue({ value, className }: { value: string; className?: string }) {
+  return (
+    <div className={className}>
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={value}
+          initial={{ opacity: 0, y: 8, scale: 0.985 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 1.015 }}
+          transition={{ duration: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
+        >
+          {value}
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEstimateModalProps) {
   const [formState, setFormState] = useState<FormState>(initialFormState);
 
@@ -135,6 +153,7 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
   const estimate = isEstimateReady ? buildEstimate(formState) : null;
   const estimateHeading = isEstimateReady ? getEstimateHeading(formState) : '条件を選択して概算を表示';
   const displayEstimate = estimate ?? { totalMin: GUIDE_ESTIMATE_MIN, totalMax: GUIDE_ESTIMATE_MAX };
+  const estimateRangeLabel = formatRange(displayEstimate.totalMin, displayEstimate.totalMax);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -159,7 +178,7 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
       `配信場所の所在地: ${locationLabel}`,
       '',
       '【Web簡易見積り結果】',
-      `概算合計: ${formatRange(estimate.totalMin, estimate.totalMax)}`,
+      `出張料・技術料・機材設置代行料・機材費を含む概算合計: ${formatRange(estimate.totalMin, estimate.totalMax)}`,
       '',
       'このままメッセージを送信してください。',
     ].join('\n');
@@ -357,7 +376,7 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
                   </div>
                 </label>
 
-                <div className="rounded-3xl border border-[#06C755]/30 bg-[#06C755]/8 p-5 md:col-span-2 md:p-6">
+                <div className="hidden rounded-3xl border border-[#06C755]/30 bg-[#06C755]/8 p-5 md:col-span-2 md:block md:p-6">
                   <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                     <div>
                       <div className="text-xs font-black uppercase tracking-[0.2em] text-[#7dff8a]">Quick Estimate</div>
@@ -367,14 +386,12 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
 
                   <div className="mt-5 grid gap-3 md:grid-cols-1">
                     <div className="rounded-2xl border border-[#7dff8a]/20 bg-[#7dff8a]/10 p-4">
-                      <div className="text-xs font-bold text-[#b8ffc0]">{isEstimateReady ? '概算合計' : '参考レンジ'}</div>
-                      <div className="mt-2 min-h-[2rem] text-2xl font-black text-white tabular-nums">
-                        {formatRange(displayEstimate.totalMin, displayEstimate.totalMax)}
-                      </div>
+                      <div className="text-xs font-bold text-[#b8ffc0]">{isEstimateReady ? '出張料・技術料・機材設置代行料・機材費を含む概算合計' : '出張料・技術料・機材設置代行料・機材費を含む参考レンジ'}</div>
+                      <AnimatedEstimateValue value={estimateRangeLabel} className="mt-2 min-h-[2rem] text-2xl font-black text-white tabular-nums" />
                       <p className="mt-2 text-sm leading-relaxed text-[#d7ffdc]">
                         {isEstimateReady
-                          ? '選択した条件を反映した概算です。詳細は公式LINEで個別にご案内します。'
-                          : '地域以外の条件を選択すると、この場で概算金額を表示します。'}
+                          ? '出張料・技術料・機材設置代行料・機材費を含めた概算です。詳細は公式LINEで個別にご案内します。'
+                          : '地域以外の条件を選択すると、出張料・技術料・機材設置代行料・機材費を含む概算をこの場で表示します。'}
                       </p>
                     </div>
                   </div>
@@ -404,15 +421,13 @@ export default function EquipmentEstimateModal({ isOpen, onClose }: EquipmentEst
               <div className="flex items-center justify-between gap-4">
                 <div className="min-w-0 flex-1">
                   <div className="text-[10px] font-black uppercase tracking-[0.18em] text-[#7dff8a]">
-                    {isEstimateReady ? 'Quick Estimate' : 'Estimate Preview'}
+                    {isEstimateReady ? 'Total Estimate' : 'Estimate Preview'}
                   </div>
-                  <div className="mt-1 text-lg font-black text-white tabular-nums">
-                    {formatRange(displayEstimate.totalMin, displayEstimate.totalMax)}
-                  </div>
+                  <AnimatedEstimateValue value={estimateRangeLabel} className="mt-1 text-lg font-black text-white tabular-nums" />
                   <p className="mt-1 text-[11px] leading-relaxed text-[#c9f9cf]">
                     {isEstimateReady
-                      ? '入力完了。このまま下のボタンから詳細見積りへ進めます。'
-                      : `あと${remainingFieldCount}項目で概算が確定します。`}
+                      ? '出張料・技術料・機材設置代行料・機材費を含む概算合計です。このまま詳細見積りへ進めます。'
+                      : `あと${remainingFieldCount}項目で出張料・技術料・機材設置代行料・機材費を含む概算が確定します。`}
                   </p>
                 </div>
                 <div className="shrink-0 rounded-full border border-white/10 bg-black/25 px-3 py-2 text-xs font-bold text-white">
